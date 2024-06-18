@@ -39,6 +39,15 @@ const FormulaInput: React.FC = () => {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace" && currentInput === "" && tags.length > 0) {
+      const lastTag = tags[tags.length - 1];
+      setTags(tags.slice(0, -1));
+      setCurrentInput(lastTag.name);
+      e.preventDefault();
+    }
+  };
+
   const handleAddTag = (tag: { name: string; value: string | number }) => {
     setTags([...tags, tag]);
     setCurrentInput("");
@@ -85,7 +94,8 @@ const FormulaInput: React.FC = () => {
           value={currentInput}
           onChange={handleInputChange}
           onKeyPress={handleKeyPress}
-          placeholder="Type to get tags..."
+          onKeyDown={handleKeyDown}
+          placeholder="Type to get suggestions..."
           style={{ border: "none", outline: "none", flex: 1 }}
         />
       </Box>
